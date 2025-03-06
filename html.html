@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <style>
+        body { text-align: center; background-color: #111; color: white; }
+        canvas { background: black; display: block; margin: auto; }
+    </style>
+</head>
+<body>
+    <h1>Snake Game</h1>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        let snake = [{ x: 10, y: 10 }];
+        let direction = { x: 1, y: 0 };
+        let food = { x: 5, y: 5 };
+        let gridSize = 20;
+        let gameInterval;
+
+        function update() {
+            const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+            snake.unshift(head);
+            if (head.x === food.x && head.y === food.y) {
+                food = { x: Math.floor(Math.random() * 20), y: Math.floor(Math.random() * 20) };
+            } else {
+                snake.pop();
+            }
+
+            if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20 || 
+                snake.slice(1).some(s => s.x === head.x && s.y === head.y)) {
+                clearInterval(gameInterval);
+                alert("Game Over!");
+                document.location.reload();
+            }
+        }
+
+        function draw() {
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = "lime";
+            snake.forEach(part => ctx.fillRect(part.x * gridSize, part.y * gridSize, gridSize, gridSize));
+
+            ctx.fillStyle = "red";
+            ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+        }
+
+        document.addEventListener("keydown", e => {
+            if (e.key === "ArrowUp" && direction.y === 0) direction = { x: 0, y: -1 };
+            if (e.key === "ArrowDown" && direction.y === 0) direction = { x: 0, y: 1 };
+            if (e.key === "ArrowLeft" && direction.x === 0) direction = { x: -1, y: 0 };
+            if (e.key === "ArrowRight" && direction.x === 0) direction = { x: 1, y: 0 };
+        });
+
+        gameInterval = setInterval(gameLoop, 100);
+    </script>
+</body>
+</html>
