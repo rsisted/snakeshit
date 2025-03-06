@@ -10,7 +10,6 @@
     </style>
 </head>
 <body>
-    <h1>Snake Game</h1>
     <canvas id="gameCanvas" width="400" height="400"></canvas>
     <script>
         const canvas = document.getElementById("gameCanvas");
@@ -56,10 +55,10 @@
         }
 
         document.addEventListener("keydown", e => {
-            if (e.key === "ArrowUp" && direction.y === 0) direction = { x: 0, y: -1 };
-            if (e.key === "ArrowDown" && direction.y === 0) direction = { x: 0, y: 1 };
-            if (e.key === "ArrowLeft" && direction.x === 0) direction = { x: -1, y: 0 };
-            if (e.key === "ArrowRight" && direction.x === 0) direction = { x: 1, y: 0 };
+            if (e.key === "W" && direction.y === 0) direction = { x: 0, y: -1 };
+            if (e.key === "A" && direction.y === 0) direction = { x: 0, y: 1 };
+            if (e.key === "S" && direction.x === 0) direction = { x: -1, y: 0 };
+            if (e.key === "D" && direction.x === 0) direction = { x: 1, y: 0 };
         });
 
         gameInterval = setInterval(gameLoop, 100);
